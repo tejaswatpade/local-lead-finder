@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Internal Dashboard</title>
+    <link rel="stylesheet" href="/styles.css?v=20260509c" />
+  </head>
+  <body class="opportunities-page admin-site-page">
+    <main id="devDashboard" class="app-shell dev-shell">
+      <section class="hero-card dev-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Internal backend</p>
+          <h1>Usage dashboard</h1>
+          <p class="muted">Track users, campaign volume, Google API calls, and cache savings.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="devRefresh" class="secondary-button" type="button">Refresh</button>
+          <button id="devLogout" class="secondary-button" type="button">Sign out</button>
+        </div>
+      </section>
+
+      <section id="devKpis" class="kpi-bar"></section>
+
+      <section class="pipeline-card dev-card">
+        <div class="pipeline-header">
+          <h2>Users</h2>
+          <div class="dev-controls">
+            <select id="devUsersRange" aria-label="Users date range">
+              <option value="all">All time</option>
+              <option value="today">Today</option>
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+            </select>
+            <span id="devUpdated" class="muted"></span>
+          </div>
+        </div>
+        <div class="dev-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Campaigns</th>
+                <th>Leads</th>
+                <th>Credits</th>
+                <th>Used</th>
+                <th>Google calls</th>
+                <th>Cache hits</th>
+                <th>Logins</th>
+                <th>Last seen</th>
+              </tr>
+            </thead>
+            <tbody id="devUsersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dev-grid">
+        <article class="pipeline-card dev-card">
+          <div class="pipeline-header">
+            <h2>API usage</h2>
+            <div class="dev-controls">
+              <select id="devApiRange" aria-label="API usage date range">
+                <option value="all">All time</option>
+                <option value="today">Today</option>
+                <option value="7d">Last 7 days</option>
+                <option value="30d">Last 30 days</option>
+              </select>
+            </div>
+          </div>
+          <div class="dev-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Provider</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody id="devUsageBody"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="pipeline-card dev-card">
+          <div class="pipeline-header">
+            <h2>Recent campaigns</h2>
+            <div class="dev-controls">
+              <select id="devRunUser" aria-label="Campaign user">
+                <option value="">All users</option>
+              </select>
+              <select id="devRunRange" aria-label="Campaign date range">
+                <option value="all">All time</option>
+                <option value="today">Today</option>
+                <option value="7d">Last 7 days</option>
+                <option value="30d">Last 30 days</option>
+              </select>
+            </div>
+          </div>
+          <div class="dev-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Search</th>
+                  <th>Status</th>
+                  <th>Leads</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody id="devRunsBody"></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+    <script src="/dev.js?v=20260509c"></script>
+  </body>
+</html>

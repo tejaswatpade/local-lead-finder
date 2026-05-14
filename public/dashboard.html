@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>This Week's Opportunities - Local Lead Finder</title>
+    <link rel="stylesheet" href="/styles.css?v=20260509f" />
+  </head>
+  <body class="opportunities-page">
+    <main class="opportunity-shell">
+      <nav class="opportunity-nav" aria-label="Opportunity navigation">
+        <a class="opportunity-brand" href="/">
+          <span></span>
+          Local Lead Finder
+        </a>
+        <div class="opportunity-nav-actions">
+          <a class="quiet-button" href="/pricing">Pricing</a>
+          <button id="logoutButton" class="quiet-button" type="button">Sign out</button>
+        </div>
+      </nav>
+
+      <section class="opportunity-control-card">
+        <div class="section-heading">
+          <p class="opportunity-eyebrow">New search</p>
+          <h2>Start a fresh lead search</h2>
+          <p>Search a niche and location, then work only the best opportunities from the board below.</p>
+        </div>
+        <form id="campaignForm" class="opportunity-search-form">
+          <label>
+            Niche
+            <input name="niche" placeholder="real estate agents" required />
+          </label>
+          <label>
+            Location
+            <input name="location" placeholder="Austin, Texas" required />
+          </label>
+          <label>
+            Leads
+            <input name="leadCount" type="number" min="1" max="100" value="100" required />
+          </label>
+          <label>
+            Radius km
+            <input name="radiusKm" type="number" min="1" max="50" value="15" required />
+          </label>
+          <label>
+            Search depth
+            <select name="searchDepth">
+              <option value="smart" selected>Smart grid</option>
+              <option value="fast">Fast scan</option>
+              <option value="deep">Deep grid</option>
+            </select>
+          </label>
+          <fieldset class="segmented-field">
+            <legend>Contact type</legend>
+            <div class="segmented-control">
+              <label>
+                <input name="contactPreference" type="radio" value="any" checked />
+                Any reachable
+              </label>
+              <label>
+                <input name="contactPreference" type="radio" value="email" />
+                Email only
+              </label>
+              <label>
+                <input name="contactPreference" type="radio" value="email_phone" />
+                Email + phone
+              </label>
+            </div>
+          </fieldset>
+          <fieldset class="segmented-field compact">
+            <legend>Review filter</legend>
+            <div class="segmented-control">
+              <label>
+                <input name="reviewFilterEnabled" type="radio" value="false" />
+                Off
+              </label>
+              <label>
+                <input name="reviewFilterEnabled" type="radio" value="true" checked />
+                On
+              </label>
+            </div>
+          </fieldset>
+          <label>
+            Min reviews
+            <input name="minReviews" type="number" min="0" value="5" />
+          </label>
+          <label>
+            Max reviews
+            <input name="maxReviews" type="number" min="0" value="30" />
+          </label>
+          <label>
+            Website filter
+            <select name="websiteFilter">
+              <option value="any" selected>Any website status</option>
+              <option value="has_website">Has official website</option>
+              <option value="no_website">No official website</option>
+              <option value="weak_website">Weak website signal</option>
+            </select>
+          </label>
+          <label>
+            Visibility
+            <select name="visibilityFilter">
+              <option value="any" selected>Any visibility</option>
+              <option value="low">Low visibility</option>
+              <option value="medium">Medium visibility</option>
+              <option value="high">High visibility</option>
+            </select>
+          </label>
+          <label>
+            Opportunity
+            <select name="opportunityFilter">
+              <option value="any" selected>Any opportunity</option>
+              <option value="high_rating_low_reviews">High rating + low reviews</option>
+              <option value="no_booking">No booking page</option>
+              <option value="no_contact">No contact page</option>
+              <option value="no_website">No website</option>
+            </select>
+          </label>
+          <label class="wide">
+            Offer angle
+            <input name="notes" placeholder="booking flow, quote calls, follow-up cleanup" />
+          </label>
+          <div class="opportunity-form-actions">
+            <button type="submit">Start new search</button>
+            <button class="quiet-button" data-clear-board type="button">Clear current board</button>
+            <span id="campaignCostHint">Search cost: 50 credits.</span>
+          </div>
+        </form>
+      </section>
+
+      <section id="campaignStatus" class="campaign-status-card" hidden></section>
+
+      <section class="opportunity-hero">
+        <div>
+          <p class="opportunity-eyebrow">Curated lead room</p>
+          <h1>This Week&rsquo;s Opportunities</h1>
+          <p>
+            The best local businesses to contact first, ranked by urgency,
+            visible demand signals, and the clearest reason to start a sales conversation.
+          </p>
+        </div>
+        <div id="weeklyFeed" class="weekly-feed" aria-label="Weekly opportunity feed"></div>
+      </section>
+
+      <section class="start-here-card">
+        <div class="section-heading">
+          <p class="opportunity-eyebrow">Start Here</p>
+          <h2>Work the highest intent leads first.</h2>
+        </div>
+        <ol id="startHereList" class="start-here-list"></ol>
+      </section>
+
+      <section class="opportunity-board-heading">
+        <div>
+          <p class="opportunity-eyebrow">Top opportunities</p>
+          <h2>Priority lead cards</h2>
+        </div>
+        <div class="board-actions">
+          <span id="leadVisibleCount"></span>
+          <div class="board-view-toggle" role="group" aria-label="Lead board view">
+            <button class="quiet-button is-active" data-board-view="priority" type="button">Priority 20</button>
+            <button class="quiet-button" data-board-view="all" type="button">All leads</button>
+          </div>
+          <button class="quiet-button" data-clear-board type="button">Clear board</button>
+          <a class="quiet-button" href="/api/export/contact-leads.csv">Export contacts</a>
+          <a class="quiet-button" href="/api/export/pending-approval.csv">Export pending</a>
+        </div>
+      </section>
+
+      <section id="leadCards" class="opportunity-grid"></section>
+      <div id="saveStatus" class="opportunity-toast" aria-live="polite"></div>
+    </main>
+
+    <div id="auditModal" class="modal-backdrop opportunity-modal-backdrop" hidden>
+      <article class="audit-modal opportunity-modal">
+        <div class="modal-header">
+          <div>
+            <p class="opportunity-eyebrow">Lead audit</p>
+            <h2 id="modalTitle"></h2>
+          </div>
+          <button id="modalClose" class="icon-button" type="button" aria-label="Close">x</button>
+        </div>
+        <div id="modalBody" class="modal-body"></div>
+        <div class="modal-actions">
+          <button id="modalCopyEmail" class="secondary-button" type="button">Copy message</button>
+          <button id="modalMarkContacted" type="button">Mark contacted</button>
+        </div>
+      </article>
+    </div>
+
+    <script src="/dashboard.js?v=20260509f"></script>
+  </body>
+</html>
