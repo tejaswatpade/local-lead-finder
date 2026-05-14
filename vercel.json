@@ -1,0 +1,74 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 300,
+        "includeFiles": ["public/**"]
+      }
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/styles.css",
+      "headers": {
+        "cache-control": "no-store"
+      },
+      "dest": "/public/styles.css"
+    },
+    {
+      "src": "/dashboard.js",
+      "headers": {
+        "cache-control": "no-store"
+      },
+      "dest": "/public/dashboard.js"
+    },
+    {
+      "src": "/login.js",
+      "headers": {
+        "cache-control": "no-store"
+      },
+      "dest": "/public/login.js"
+    },
+    {
+      "src": "/dev.js",
+      "headers": {
+        "cache-control": "no-store"
+      },
+      "dest": "/public/dev.js"
+    },
+    {
+      "src": "/public-site.js",
+      "headers": {
+        "cache-control": "no-store"
+      },
+      "dest": "/public/public-site.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/server.js"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/api/server.js"
+    },
+    {
+      "src": "/login",
+      "dest": "/api/server.js"
+    },
+    {
+      "src": "/",
+      "dest": "/api/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/server.js"
+    }
+  ]
+}
